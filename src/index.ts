@@ -278,3 +278,5 @@ export {
 export type SessionStore = GenericSessionStore<Session>;
 export type SessionStorePayload = SessionPayload<Session>;
 /* c8 ignore stop */
+
+export { getConfig } from "./config";
