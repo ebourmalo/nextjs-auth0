@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
-import Session from "./session/session";
-import { WithMiddlewareAuthRequired } from "./helpers/with-middleware-auth-required";
-import { ConfigParameters } from "./config";
+import { NextRequest, NextResponse } from 'next/server';
+import Session from './session/session';
+import { WithMiddlewareAuthRequired } from './helpers/with-middleware-auth-required';
+import { ConfigParameters } from './config';
 export type Auth0Edge = {
     withMiddlewareAuthRequired: WithMiddlewareAuthRequired;
     getSession: GetSession;

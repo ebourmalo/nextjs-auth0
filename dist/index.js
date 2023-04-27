@@ -13,7 +13,7 @@ var version_1 = tslib_1.__importDefault(require("./version"));
 var config_1 = require("./config");
 var instance_check_1 = require("./utils/instance-check");
 var instance;
-var genId = function () { return crypto_1.default.randomBytes(16).toString("hex"); };
+var genId = function () { return crypto_1.default.randomBytes(16).toString('hex'); };
 // For using managed instance with named exports.
 function getInstance() {
     (0, instance_check_1.setIsUsingNamedExports)();
@@ -34,8 +34,8 @@ var _initAuth = function (params) {
     var _a = (0, config_1.getConfig)(tslib_1.__assign(tslib_1.__assign({}, params), { session: tslib_1.__assign({ genId: genId }, params === null || params === void 0 ? void 0 : params.session) })), baseConfig = _a.baseConfig, nextConfig = _a.nextConfig;
     // Init base layer (with base config)
     var getClient = (0, auth0_session_1.clientFactory)(baseConfig, {
-        name: "nextjs-auth0",
-        version: version_1.default,
+        name: 'nextjs-auth0',
+        version: version_1.default
     });
     var transientStore = new auth0_session_1.TransientStore(baseConfig);
     var sessionStore = baseConfig.session.store
@@ -60,7 +60,7 @@ var _initAuth = function (params) {
         handleLogin: handleLogin,
         handleLogout: handleLogout,
         handleCallback: handleCallback,
-        handleProfile: handleProfile,
+        handleProfile: handleProfile
     });
     return {
         sessionCache: sessionCache,
@@ -74,7 +74,7 @@ var _initAuth = function (params) {
         handleLogout: handleLogout,
         handleCallback: handleCallback,
         handleProfile: handleProfile,
-        handleAuth: handleAuth,
+        handleAuth: handleAuth
     };
 };
 exports._initAuth = _initAuth;

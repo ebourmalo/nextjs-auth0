@@ -15,8 +15,8 @@ var genId = function () {
     var bytes = new Uint8Array(16);
     crypto.getRandomValues(bytes);
     return Array.from(bytes)
-        .map(function (b) { return b.toString(16).padStart(2, "0"); })
-        .join("");
+        .map(function (b) { return b.toString(16).padStart(2, '0'); })
+        .join('');
 };
 function getInstance(params) {
     (0, instance_check_1.setIsUsingNamedExports)();
@@ -57,7 +57,7 @@ var _initAuth0 = function (params) {
     return {
         getSession: getSession,
         createSession: createSession,
-        withMiddlewareAuthRequired: withMiddlewareAuthRequired,
+        withMiddlewareAuthRequired: withMiddlewareAuthRequired
     };
 };
 var getSession = function () {
@@ -78,6 +78,8 @@ var createSession = function () {
     return (_a = getInstance()).createSession.apply(_a, tslib_1.__spreadArray([], tslib_1.__read(args), false));
 };
 exports.createSession = createSession;
-var withMiddlewareAuthRequired = function (middleware) { return getInstance().withMiddlewareAuthRequired(middleware); };
+var withMiddlewareAuthRequired = function (middleware) {
+    return getInstance().withMiddlewareAuthRequired(middleware);
+};
 exports.withMiddlewareAuthRequired = withMiddlewareAuthRequired;
 //# sourceMappingURL=edge.js.map

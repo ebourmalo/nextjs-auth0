@@ -1,8 +1,8 @@
-import { SessionPayload, SessionStore as GenericSessionStore } from "./auth0-session";
-import { AfterCallback, AfterRefetch, CallbackOptions, GetLoginState, HandleAuth, HandleCallback, HandleLogin, HandleLogout, HandleProfile, Handlers, LoginOptions, LogoutOptions, OnError, ProfileOptions } from "./handlers";
-import { AccessTokenRequest, Claims, GetAccessToken, GetAccessTokenResult, GetSession, Session, SessionCache, TouchSession, UpdateSession } from "./session/";
-import { GetServerSidePropsResultWithSession, PageRoute, WithApiAuthRequired, WithPageAuthRequired, WithPageAuthRequiredOptions } from "./helpers";
-import { ConfigParameters } from "./config";
+import { SessionPayload, SessionStore as GenericSessionStore } from './auth0-session';
+import { AfterCallback, AfterRefetch, CallbackOptions, GetLoginState, HandleAuth, HandleCallback, HandleLogin, HandleLogout, HandleProfile, Handlers, LoginOptions, LogoutOptions, OnError, ProfileOptions } from './handlers';
+import { AccessTokenRequest, Claims, GetAccessToken, GetAccessTokenResult, GetSession, Session, SessionCache, TouchSession, UpdateSession } from './session/';
+import { GetServerSidePropsResultWithSession, PageRoute, WithApiAuthRequired, WithPageAuthRequired, WithPageAuthRequiredOptions } from './helpers';
+import { ConfigParameters } from './config';
 /**
  * The SDK server instance.
  *
@@ -80,10 +80,10 @@ export declare const handleLogout: HandleLogout;
 export declare const handleCallback: HandleCallback;
 export declare const handleProfile: HandleProfile;
 export declare const handleAuth: HandleAuth;
-export { AccessTokenError, AccessTokenErrorCode, AuthError, CallbackHandlerError, HandlerError, LoginHandlerError, LogoutHandlerError, ProfileHandlerError, } from "./utils/errors";
-export { ApplicationError, IdentityProviderError, MissingStateCookieError, MissingStateParamError, } from "./auth0-session";
-export { AccessTokenRequest, AfterCallback, AfterRefetch, CallbackOptions, Claims, ConfigParameters, GetAccessToken, GetAccessTokenResult, GetLoginState, GetServerSidePropsResultWithSession, GetSession, HandleAuth, HandleCallback, HandleLogin, HandleLogout, HandleProfile, Handlers, LoginOptions, LogoutOptions, OnError, PageRoute, ProfileOptions, Session, SessionCache, TouchSession, UpdateSession, WithApiAuthRequired, WithPageAuthRequired, WithPageAuthRequiredOptions, };
+export { AccessTokenError, AccessTokenErrorCode, AuthError, CallbackHandlerError, HandlerError, LoginHandlerError, LogoutHandlerError, ProfileHandlerError } from './utils/errors';
+export { ApplicationError, IdentityProviderError, MissingStateCookieError, MissingStateParamError } from './auth0-session';
+export { AccessTokenRequest, AfterCallback, AfterRefetch, CallbackOptions, Claims, ConfigParameters, GetAccessToken, GetAccessTokenResult, GetLoginState, GetServerSidePropsResultWithSession, GetSession, HandleAuth, HandleCallback, HandleLogin, HandleLogout, HandleProfile, Handlers, LoginOptions, LogoutOptions, OnError, PageRoute, ProfileOptions, Session, SessionCache, TouchSession, UpdateSession, WithApiAuthRequired, WithPageAuthRequired, WithPageAuthRequiredOptions };
 export type SessionStore = GenericSessionStore<Session>;
 export type SessionStorePayload = SessionPayload<Session>;
-export { getConfig } from "./config";
+export { getConfig } from './config';
 //# sourceMappingURL=index.d.ts.map
