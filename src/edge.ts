@@ -2,18 +2,24 @@ import { NextMiddleware, NextRequest, NextResponse } from 'next/server';
 import { StatelessSession } from './auth0-session/session/stateless-session';
 import { StatefulSession } from './auth0-session/session/stateful-session';
 import MiddlewareCookies from './utils/middleware-cookies';
-import Session from './session/session';
+import Session, { fromJson } from './session/session';
 import SessionCache from './session/cache';
 import {
-  WithMiddlewareAuthRequired,
-  default as withMiddlewareAuthRequiredFactory
+  default as withMiddlewareAuthRequiredFactory,
+  WithMiddlewareAuthRequired
 } from './helpers/with-middleware-auth-required';
-import { getConfig, ConfigParameters } from './config';
+import { ConfigParameters, getConfig } from './config';
 import { setIsUsingNamedExports, setIsUsingOwnInstance } from './utils/instance-check';
 
-export type Auth0Edge = { withMiddlewareAuthRequired: WithMiddlewareAuthRequired; getSession: GetSession };
+export type Auth0Edge = {
+  withMiddlewareAuthRequired: WithMiddlewareAuthRequired;
+  getSession: GetSession;
+  createSession: CreateSession;
+};
 
 export type GetSession = (req: NextRequest, res: NextResponse) => Promise<Session | null | undefined>;
+
+export type CreateSession = (req: NextRequest, res: NextResponse, profile: Record<string, unknown>) => Promise<void>;
 
 export type InitAuth0 = (params?: ConfigParameters) => Auth0Edge;
 
@@ -44,7 +50,10 @@ export const initAuth0: InitAuth0 = (params?) => {
 };
 
 const _initAuth0: InitAuth0 = (params?) => {
-  const { baseConfig, nextConfig } = getConfig({ ...params, session: { genId, ...params?.session } });
+  const { baseConfig, nextConfig } = getConfig({
+    ...params,
+    session: { genId, ...params?.session }
+  });
 
   // Init base layer (with base config)
   const sessionStore = baseConfig.session.store
@@ -54,14 +63,24 @@ const _initAuth0: InitAuth0 = (params?) => {
 
   // Init Next layer (with next config)
   const getSession: GetSession = (req, res) => sessionCache.get(req, res);
+
+  const createSession: CreateSession = async (req, res, profile) => {
+    const session = fromJson(profile) as Session;
+    await sessionCache.create(req, res, session);
+  };
+
   const withMiddlewareAuthRequired = withMiddlewareAuthRequiredFactory(nextConfig.routes, () => sessionCache);
 
   return {
     getSession,
+    createSession,
     withMiddlewareAuthRequired
   };
 };
 
 export const getSession: GetSession = (...args) => getInstance().getSession(...args);
+
+export const createSession: CreateSession = (...args) => getInstance().createSession(...args);
+
 export const withMiddlewareAuthRequired: WithMiddlewareAuthRequired = (middleware?: NextMiddleware) =>
   getInstance().withMiddlewareAuthRequired(middleware);

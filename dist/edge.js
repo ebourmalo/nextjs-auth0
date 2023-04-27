@@ -1,10 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.withMiddlewareAuthRequired = exports.getSession = exports.initAuth0 = void 0;
+exports.withMiddlewareAuthRequired = exports.createSession = exports.getSession = exports.initAuth0 = void 0;
 var tslib_1 = require("tslib");
 var stateless_session_1 = require("./auth0-session/session/stateless-session");
 var stateful_session_1 = require("./auth0-session/session/stateful-session");
 var middleware_cookies_1 = tslib_1.__importDefault(require("./utils/middleware-cookies"));
+var session_1 = require("./session/session");
 var cache_1 = tslib_1.__importDefault(require("./session/cache"));
 var with_middleware_auth_required_1 = tslib_1.__importDefault(require("./helpers/with-middleware-auth-required"));
 var config_1 = require("./config");
@@ -14,8 +15,8 @@ var genId = function () {
     var bytes = new Uint8Array(16);
     crypto.getRandomValues(bytes);
     return Array.from(bytes)
-        .map(function (b) { return b.toString(16).padStart(2, '0'); })
-        .join('');
+        .map(function (b) { return b.toString(16).padStart(2, "0"); })
+        .join("");
 };
 function getInstance(params) {
     (0, instance_check_1.setIsUsingNamedExports)();
@@ -39,10 +40,24 @@ var _initAuth0 = function (params) {
     var sessionCache = new cache_1.default(baseConfig, sessionStore);
     // Init Next layer (with next config)
     var getSession = function (req, res) { return sessionCache.get(req, res); };
+    var createSession = function (req, res, profile) { return tslib_1.__awaiter(void 0, void 0, void 0, function () {
+        var session;
+        return tslib_1.__generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    session = (0, session_1.fromJson)(profile);
+                    return [4 /*yield*/, sessionCache.create(req, res, session)];
+                case 1:
+                    _a.sent();
+                    return [2 /*return*/];
+            }
+        });
+    }); };
     var withMiddlewareAuthRequired = (0, with_middleware_auth_required_1.default)(nextConfig.routes, function () { return sessionCache; });
     return {
         getSession: getSession,
-        withMiddlewareAuthRequired: withMiddlewareAuthRequired
+        createSession: createSession,
+        withMiddlewareAuthRequired: withMiddlewareAuthRequired,
     };
 };
 var getSession = function () {
@@ -54,8 +69,15 @@ var getSession = function () {
     return (_a = getInstance()).getSession.apply(_a, tslib_1.__spreadArray([], tslib_1.__read(args), false));
 };
 exports.getSession = getSession;
-var withMiddlewareAuthRequired = function (middleware) {
-    return getInstance().withMiddlewareAuthRequired(middleware);
+var createSession = function () {
+    var _a;
+    var args = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        args[_i] = arguments[_i];
+    }
+    return (_a = getInstance()).createSession.apply(_a, tslib_1.__spreadArray([], tslib_1.__read(args), false));
 };
+exports.createSession = createSession;
+var withMiddlewareAuthRequired = function (middleware) { return getInstance().withMiddlewareAuthRequired(middleware); };
 exports.withMiddlewareAuthRequired = withMiddlewareAuthRequired;
 //# sourceMappingURL=edge.js.map
